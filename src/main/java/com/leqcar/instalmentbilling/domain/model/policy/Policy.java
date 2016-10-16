@@ -1,9 +1,9 @@
 package com.leqcar.instalmentbilling.domain.model.policy;
 
-import java.time.LocalDate;
-
 import com.leqcar.instalmentbilling.domain.model.product.Product;
 import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
+
+import java.time.LocalDate;
 
 public class Policy {
 
@@ -21,8 +21,6 @@ public class Policy {
 	private Product product;
 	
 	private Commission commission;
-	
-	private Coinsurance coinsurance;
 	
 	private TransactionType transactionType;
 

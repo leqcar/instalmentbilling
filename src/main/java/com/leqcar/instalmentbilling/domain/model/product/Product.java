@@ -17,6 +17,8 @@ public class Product {
 	private PrimaryMajorLine primaryMajorLine;
 	
 	private List<Premium> policyPremiums = Collections.emptyList();
+
+	private Coinsurance coinsurance;
 	
 	private QuoteId quoteId;
 
@@ -61,6 +63,12 @@ public class Product {
 
 	public void addPremiumList(List<Premium> aPolicyPremiumList) {
 		aPolicyPremiumList.stream()
-			.forEach(premium -> policyPremiums.add(premium));
+			.forEach(premium -> {
+				premium.calculateDeltaPremiumWrittenAmount(coinsurance.getCoinsuranceCoeffValue()
+					, premium.premiumWrittenAmount());
+				policyPremiums.add(premium);
+			});
 	}
+
+
 }

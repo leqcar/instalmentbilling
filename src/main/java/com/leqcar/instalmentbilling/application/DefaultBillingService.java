@@ -22,7 +22,7 @@ public class DefaultBillingService implements BillingService {
 						, request.getEffectiveDate()
 						, quoteId));		
 		
-		policyService.retrievePolicyInformation(policyRequest);
+		Policy policy = policyService.retrievePolicyInformation(policyRequest);
 	}
 
 

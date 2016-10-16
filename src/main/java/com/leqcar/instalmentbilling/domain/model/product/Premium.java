@@ -2,6 +2,9 @@ package com.leqcar.instalmentbilling.domain.model.product;
 
 import java.math.BigDecimal;
 
+
+//TODO : Analyze how to handle the State code, put here the implementation;
+
 public class Premium {
 
 	private Location location;
@@ -15,6 +18,8 @@ public class Premium {
 	private BigDecimal onSetPremiumAmount;
 	
 	private BigDecimal offSetPremiumAmount;
+
+	private BigDecimal deltaPremiumWrittenAmount;
 	
 	private String sectionCode;
 	
@@ -30,8 +35,13 @@ public class Premium {
 	
 	
 	protected BigDecimal premiumWrittenAmount() {
-		
 		return onSetPremiumAmount.subtract(offSetPremiumAmount);
 	}
+
+
+	protected void calculateDeltaPremiumWrittenAmount(BigDecimal coinsuranceAmount, BigDecimal deltaPremiumWrittenAmount) {
+		this.deltaPremiumWrittenAmount = coinsuranceAmount.multiply(premiumWrittenAmount());
+	}
+
 }
 

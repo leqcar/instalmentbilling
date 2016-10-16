@@ -1,4 +1,4 @@
-package com.leqcar.instalmentbilling.domain.model.policy;
+package com.leqcar.instalmentbilling.domain.model.product;
 
 import java.math.BigDecimal;
 
@@ -61,7 +61,10 @@ public class Coinsurance {
 		}
 		
 		return coinsuranceCoeffValue;
-	}	
-	
-	
+	}
+
+	protected BigDecimal getCoinsuranceCoeffValue() {
+		return coinsuranceCoeffValue;
+	}
+
 }
