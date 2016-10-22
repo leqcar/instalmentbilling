@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 import com.leqcar.instalmentbilling.domain.model.policy.PolicyRepository;
 import com.leqcar.instalmentbilling.domain.model.product.Product;
+import com.leqcar.instalmentbilling.domain.model.product.ProductId;
 import com.leqcar.instalmentbilling.domain.model.product.ProductRepository;
 import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
 
@@ -39,7 +40,7 @@ public class PolicyRetrievalServiceTest {
 				, LocalDate.now()
 				, LocalDate.now() 
 				, new QuoteId("1234", "1")
-				, new Product("XYZ"
+				, new Product(new ProductId("XYZ")
 						, LocalDate.now()
 						, new QuoteId("1234", "1")));	
 		PolicyRetrievalService service = new PolicyRetrievalService(
@@ -57,7 +58,7 @@ public class PolicyRetrievalServiceTest {
 				, LocalDate.now()
 				, LocalDate.now() 
 				, new QuoteId("1234", "1")
-				, new Product("XYZ"
+				, new Product(new ProductId("XYZ")
 						, LocalDate.now()
 						, new QuoteId("1234", "1")));		
 		PolicyRetrievalService service = new PolicyRetrievalService(

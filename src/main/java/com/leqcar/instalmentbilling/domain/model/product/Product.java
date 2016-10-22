@@ -8,7 +8,7 @@ import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
 
 public class Product {
 
-	private String productCode;
+	private ProductId productId;
 	
 	private LocalDate effectiveDate;
 	
@@ -23,8 +23,8 @@ public class Product {
 	private QuoteId quoteId;
 
 	
-	public Product(String productCode, LocalDate effectiveDate, QuoteId quoteId) {
-		this.productCode = productCode;
+	public Product(ProductId productId, LocalDate effectiveDate, QuoteId quoteId) {
+		this.productId = productId;
 		this.effectiveDate = effectiveDate;
 		this.quoteId = quoteId;
 	}
@@ -45,8 +45,8 @@ public class Product {
 		this.roundPrecision = roundPrecision;
 	}
 
-	public String getProductCode() {
-		return productCode;
+	public ProductId getProductId() {
+		return productId;
 	}
 
 	public List<Premium> getPolicyPremiums() {
@@ -71,4 +71,5 @@ public class Product {
 	}
 
 
+	
 }

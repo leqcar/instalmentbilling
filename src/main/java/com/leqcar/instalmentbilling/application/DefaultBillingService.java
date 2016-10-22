@@ -2,13 +2,17 @@ package com.leqcar.instalmentbilling.application;
 
 import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 import com.leqcar.instalmentbilling.domain.model.product.Product;
+import com.leqcar.instalmentbilling.domain.model.product.ProductId;
 import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
+import com.leqcar.instalmentbilling.domain.service.ChargesRuleService;
 import com.leqcar.instalmentbilling.domain.service.PolicyRetrievalService;
 import com.leqcar.instalmentbilling.interfaces.InstalmentRequest;
 
 public class DefaultBillingService implements BillingService {
 
 	private PolicyRetrievalService policyService;
+	
+	private ChargesRuleService chargesRuleService;
 	
 	@Override
 	public void requestInstallmentBilling(InstalmentRequest request) {
@@ -18,11 +22,15 @@ public class DefaultBillingService implements BillingService {
 				request.getEffectiveDate(), 
 				request.getInceptionDate(), 
 				quoteId, 
-				new Product(request.getProductCode()
+				new Product(new ProductId(request.getProductCode())
 						, request.getEffectiveDate()
 						, quoteId));		
 		
 		Policy policy = policyService.retrievePolicyInformation(policyRequest);
+		
+		chargesRuleService.applyCharges(policy);
+		
+		
 	}
 
 

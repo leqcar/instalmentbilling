@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 //TODO : Analyze how to handle the State code, put here the implementation;
 
 public class Premium {
-
-	private Location location;
+	
+	private String locationNo;
 	
 	private String sectionObjectNo;
 	
@@ -43,5 +43,31 @@ public class Premium {
 		this.deltaPremiumWrittenAmount = coinsuranceAmount.multiply(premiumWrittenAmount());
 	}
 
+
+	protected BigDecimal getDeltaPremiumWrittenAmount() {
+		return deltaPremiumWrittenAmount;
+	}
+
+
+	public String getLocationNo() {
+		return locationNo;
+	}
+
+
+	public String getSectionCode() {
+		return sectionCode;
+	}
+
+
+	public String getRiskCode() {
+		return riskCode;
+	}
+
+
+	public String getCoverageCode() {
+		return coverageCode;
+	}
+	
+	
 }
 
