@@ -2,32 +2,31 @@ package com.leqcar.instalmentbilling.infrastructure.charges;
 
 import java.util.List;
 
-import com.leqcar.instalmentbilling.domain.model.charges.AttachmentLevel;
-import com.leqcar.instalmentbilling.domain.model.charges.AttachmentLevelMatcher;
-import com.leqcar.instalmentbilling.domain.model.charges.ChargesAllocatorService;
-import com.leqcar.instalmentbilling.domain.model.charges.ChargesRule;
+import com.leqcar.instalmentbilling.domain.model.charges.*;
 import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 import com.leqcar.instalmentbilling.domain.model.product.Premium;
+import com.leqcar.instalmentbilling.domain.service.AttachmentLevelCodeMatcherService;
+import com.leqcar.instalmentbilling.infixpostfix.InfixToPostfix;
+
+import static javax.swing.UIManager.get;
 
 public class PercentChargesAllocatorService implements ChargesAllocatorService {
-
-	AttachmentLevelMatcher attachLevelMatcher;
 	
 	@Override
-	public void allocateCharges(Policy aPolicy, ChargesRule chargeRule) {
+	public void allocateCharges(Policy aPolicy, ChargesRule chargesRule) {
 
+		AttachmentLevelCodeMatcherService attachmentLevelCodeMatcherService = new AttachmentLevelCodeMatcherService();
 		List<Premium> policyPremiums = aPolicy.getProduct().getPolicyPremiums();
 
 		for (Premium premium : policyPremiums) {
-			
-			if (AttachmentLevel.SECTION_LEVEL.sameValueAs(chargeRule.getAttachmentLevel())) {
-				attachLevelMatcher.test(chargeRule, premium);
-			}
-			
-			
-		}
 
-		
+			if (attachmentLevelCodeMatcherService.verifyAttachLevelCodeMatchOf(chargesRule, premium)) {
+				String postfix = InfixToPostfix.INSTANCE.apply(chargesRule.getCalculationFormula());
+			} else {
+				continue;
+			}
+		}
 	}
 
 }
+

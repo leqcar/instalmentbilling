@@ -2,11 +2,13 @@ package com.leqcar.instalmentbilling.domain.model.product;
 
 public class ProductId {
 
-	private String productCode;
+	private String code;
 
-	public ProductId(String productCode) {
-		super();
-		this.productCode = productCode;
+	public ProductId(String code) {
+		this.code = code;
 	}
-	
+
+	public String getCode() {
+		return code;
+	}
 }

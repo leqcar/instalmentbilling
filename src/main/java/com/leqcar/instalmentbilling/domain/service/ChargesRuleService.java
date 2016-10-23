@@ -2,6 +2,7 @@ package com.leqcar.instalmentbilling.domain.service;
 
 import java.util.List;
 
+import com.leqcar.instalmentbilling.domain.model.charges.AttachmentLevel;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesAllocatorService;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesRule;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesRuleRepository;
@@ -23,6 +24,7 @@ public class ChargesRuleService {
 		for (ChargesRule chargeRule : chargesRule) {			
 			chargesAllocatorService = resolver.apply(chargeRule.getChargeBasis());
 			if (chargesAllocatorService != null) {
+
 				chargesAllocatorService.allocateCharges(aPolicy, chargeRule);
 			}			
 		}

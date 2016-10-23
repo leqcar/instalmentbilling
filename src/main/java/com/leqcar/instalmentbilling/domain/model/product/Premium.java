@@ -32,6 +32,10 @@ public class Premium {
 	private String minorLineCode;
 	
 	private String classPerilCode;
+
+	private String stateCode;
+
+	private ProductId productId;
 	
 	
 	protected BigDecimal premiumWrittenAmount() {
@@ -67,7 +71,13 @@ public class Premium {
 	public String getCoverageCode() {
 		return coverageCode;
 	}
-	
-	
+
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public ProductId getProductId() {
+		return productId;
+	}
 }
 

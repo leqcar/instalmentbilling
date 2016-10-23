@@ -23,6 +23,8 @@ public class ChargesRule {
 	private String riskCode;
 	
 	private String coverage;
+
+	private String stateCode;
 	
 	private AttachmentLevel attachmentLevel;
 	
@@ -88,6 +90,9 @@ public class ChargesRule {
 
 	public Integer getCalculationSequenceNumber() {
 		return calculationSequenceNumber;
-	} 
-	
+	}
+
+	public String getStateCode() {
+		return stateCode;
+	}
 }
