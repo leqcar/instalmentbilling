@@ -20,4 +20,8 @@ public enum ChargesBasis {
 	public boolean sameValueAs(ChargesBasis otherChargeBasis) {
 		return this.equals(otherChargeBasis);
 	}
+	
+	public static ChargesBasis get(String basis) {
+		return ChargesBasis.valueOf(basis);		
+	}
 }

@@ -1,10 +1,11 @@
 package com.leqcar.instalmentbilling.domain.model.product;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
+import com.leqcar.instalmentbilling.domain.model.quote.WipId;
 
 public class Product {
 
@@ -16,17 +17,17 @@ public class Product {
 	
 	private PrimaryMajorLine primaryMajorLine;
 	
-	private List<Premium> policyPremiums = Collections.emptyList();
+	private List<Premium> policyPremiums;
 
 	private Coinsurance coinsurance;
 	
-	private QuoteId quoteId;
+	private WipId wipId;
 
 	
-	public Product(ProductId productId, LocalDate effectiveDate, QuoteId quoteId) {
+	public Product(ProductId productId, LocalDate effectiveDate, WipId wipId) {
 		this.productId = productId;
 		this.effectiveDate = effectiveDate;
-		this.quoteId = quoteId;
+		this.wipId = wipId;
 	}
 
 	public void setPrimaryMajorLine(PrimaryMajorLine primaryMajorLine) {
@@ -53,23 +54,41 @@ public class Product {
 		return policyPremiums;
 	}
 
-	public QuoteId getQuoteId() {
-		return quoteId;
+	public WipId getQuoteId() {
+		return wipId;
 	}
 	
 	public boolean hasPolicyPremium() {
 		return policyPremiums.isEmpty() ? false : true;
 	}
 
-	public void addPremiumList(List<Premium> aPolicyPremiumList) {
-		aPolicyPremiumList.stream()
+	public void addPremiumList(List<Premium> aPolicyPremiumList) {		
+		if (policyPremiums == null) {
+			policyPremiums = new ArrayList<>();
+		}			
+		aPolicyPremiumList.stream()			
 			.forEach(premium -> {
-				premium.calculateDeltaPremiumWrittenAmount(coinsurance.getCoinsuranceCoeffValue()
-					, premium.premiumWrittenAmount());
+				premium.calculateDeltaPremiumWrittenAmount(coinsurance.getCoinsuranceCoeffValue(), premium.premiumWrittenAmount());
 				policyPremiums.add(premium);
-			});
+			});						
+	}
+	
+	public LocalDate getEffectiveDate() {
+		return effectiveDate;
 	}
 
+	public RoundPrecision getRoundPrecision() {
+		return roundPrecision;
+	}
 
+	public Coinsurance getCoinsurance() {
+		return coinsurance;
+	}
+
+	public void setCoinsurance(Coinsurance coinsurance) {
+		this.coinsurance = coinsurance;
+	}
+	
+	
 	
 }

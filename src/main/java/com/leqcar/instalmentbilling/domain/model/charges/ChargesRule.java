@@ -1,8 +1,6 @@
 package com.leqcar.instalmentbilling.domain.model.charges;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ChargesRule {
 
@@ -22,16 +20,40 @@ public class ChargesRule {
 	
 	private String riskCode;
 	
-	private String coverage;
+	private String coverageCode;
 
 	private String stateCode;
 	
 	private AttachmentLevel attachmentLevel;
 	
+	private RoundRuleType roundRuleType;
+	
 	private String calculationFormula;
 	
 	private Integer calculationSequenceNumber;
 	
+
+
+
+	public ChargesRule(String chargeCode, ChargesBasis chargeBasis, BigDecimal chargeCount, ChargesType chargeType,
+			String productCode, String locationNumber, String sectionCode, String riskCode, String coverageCode,
+			String stateCode, AttachmentLevel attachmentLevel, RoundRuleType roundRuleType, String calculationFormula) {
+		super();
+		this.chargeCode = chargeCode;
+		this.chargeBasis = chargeBasis;
+		this.chargeCount = chargeCount;
+		this.chargeType = chargeType;
+		this.productCode = productCode;
+		this.locationNumber = locationNumber;
+		this.sectionCode = sectionCode;
+		this.riskCode = riskCode;
+		this.coverageCode = coverageCode;
+		this.stateCode = stateCode;
+		this.attachmentLevel = attachmentLevel;
+		this.roundRuleType = roundRuleType;
+		this.calculationFormula = calculationFormula;
+	}
+
 
 	public ChargesBasis getChargeBasis() {
 		return chargeBasis;
@@ -73,8 +95,8 @@ public class ChargesRule {
 	}
 
 
-	public String getCoverage() {
-		return coverage;
+	public String getCoverageCode() {
+		return coverageCode;
 	}
 
 
@@ -94,5 +116,9 @@ public class ChargesRule {
 
 	public String getStateCode() {
 		return stateCode;
+	}
+	
+	public BigDecimal applyRounding(Integer roundPrecision, BigDecimal amount) {
+		return roundRuleType.apply(roundPrecision, amount);
 	}
 }

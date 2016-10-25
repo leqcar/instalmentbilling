@@ -48,12 +48,12 @@ public class Coinsurance {
 		case "01":
 			if (code.equals("03") || (code.equals("04"))) {
 				//TODO: Put the derive value
-				return null;
+				return BigDecimal.TEN;
 			}
 		case "02" :
 			if (aCode.equals("01") || (aCode.equals("02"))) {
 				//TODO: Put the derive value
-				return null;
+				return BigDecimal.ONE;
 			}
 
 		default:

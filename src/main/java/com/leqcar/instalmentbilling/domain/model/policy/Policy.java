@@ -3,7 +3,7 @@ package com.leqcar.instalmentbilling.domain.model.policy;
 import java.time.LocalDate;
 
 import com.leqcar.instalmentbilling.domain.model.product.Product;
-import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
+import com.leqcar.instalmentbilling.domain.model.quote.WipId;
 
 public class Policy {
 
@@ -12,33 +12,32 @@ public class Policy {
 	
 	//used for new business
 	private LocalDate inceptionDate;
-	//used for endorments
+	//used for endorsements
 	private LocalDate transactionDate;
-	
-	//TODO: change this to WipId class
-	private QuoteId quoteId;
+
+	private WipId wipId;
 	
 	private Product product;
 	
 	private Commission commission;
 	
 	private TransactionType transactionType;
-
+	
 	public Policy(LocalDate expirationDate, 
 			LocalDate effectiveDate, 
 			LocalDate inceptionDate, 
-			QuoteId quoteId,
+			WipId wipId,
 			Product product) {
 		super();
 		this.expirationDate = expirationDate;
 		this.effectiveDate = effectiveDate;
 		this.inceptionDate = inceptionDate;
-		this.quoteId = quoteId;
+		this.wipId = wipId;
 		this.product = product;
 	}
 
-	public QuoteId getQuoteId() {
-		return quoteId;
+	public WipId getWipId() {
+		return wipId;
 	}
 
 	public Product getProduct() {
@@ -49,4 +48,28 @@ public class Policy {
 		this.product = product;
 	}
 
+	public LocalDate getExpirationDate() {
+		return expirationDate;
+	}
+
+	public LocalDate getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public LocalDate getInceptionDate() {
+		return inceptionDate;
+	}
+
+	public LocalDate getTransactionDate() {
+		return transactionDate;
+	}
+
+	public Commission getCommission() {
+		return commission;
+	}
+
+	public TransactionType getTransactionType() {
+		return transactionType;
+	}
+	
 }

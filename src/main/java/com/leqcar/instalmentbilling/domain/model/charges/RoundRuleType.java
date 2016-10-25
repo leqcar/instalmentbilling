@@ -2,32 +2,32 @@ package com.leqcar.instalmentbilling.domain.model.charges;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-public enum RoundRuleType implements Function<BigDecimal, BigDecimal>{
+public enum RoundRuleType implements BiFunction<Integer, BigDecimal, BigDecimal>{
 
 	UP {
 		@Override
-		public BigDecimal apply(BigDecimal t) {
-			return null;
-		}
-		
+		public BigDecimal apply(Integer roundPrecision, BigDecimal amount) {
+			return amount.setScale(roundPrecision, RoundingMode.UP);
+		}		
 	}, 
 	
 	DOWN {
+
 		@Override
-		public BigDecimal apply(BigDecimal t) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
+		public BigDecimal apply(Integer roundPrecision, BigDecimal amount) {
+			return amount.setScale(roundPrecision, RoundingMode.DOWN);
+		}		
 	}, 
 	
 	NORMAL {
+
 		@Override
-		public BigDecimal apply(BigDecimal t) {
-			return t.setScale(5, RoundingMode.HALF_UP);
-		}
-		
+		public BigDecimal apply(Integer roundPrecision, BigDecimal amount) {	
+			return amount.setScale(roundPrecision, RoundingMode.HALF_UP);
+		}		
+
 	};
+
 }

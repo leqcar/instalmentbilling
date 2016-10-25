@@ -1,31 +1,35 @@
 package com.leqcar.instalmentbilling.infrastructure.charges;
 
-import com.leqcar.instalmentbilling.domain.model.charges.AttachmentLevel;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiPredicate;
+
+import com.leqcar.instalmentbilling.domain.model.charges.AttachmentLevelCodeMatcher;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesRule;
 import com.leqcar.instalmentbilling.domain.model.product.Premium;
-import com.leqcar.instalmentbilling.domain.model.charges.AttachmentLevelCodeMatcher;
-
-import java.util.Map;
-import java.util.function.BiPredicate;
 
 /**
  * Created by jongtenerife on 24/10/2016.
  */
 public class RiskLevelCodeMatcher implements AttachmentLevelCodeMatcher {
 
-    private Map<AttachmentLevel, BiPredicate<ChargesRule, Premium>> mapPredicates;
-
-    public RiskLevelCodeMatcher(Map<AttachmentLevel, BiPredicate<ChargesRule, Premium>> mapPredicates) {
-        this.mapPredicates = mapPredicates;
-    }
-
-    @Override
+	private List<BiPredicate<ChargesRule, Premium>> riskLevelPredicates = initializeRiskLevelPredicates();
+    
+	@Override
     public boolean matches(ChargesRule chargesRule, Premium premium) {
-        return mapPredicates.get(AttachmentLevel.RISK_LEVEL)
-                .and(mapPredicates.get(AttachmentLevel.SECTION_LEVEL))
-                .and((c, p) -> chargesRule.getLocationNumber().equals(premium.getLocationNo()))
-                .and((c, p) -> chargesRule.getStateCode().equals(premium.getStateCode()))
-                .and((c, p) -> chargesRule.getLocationNumber().equals(premium.getLocationNo()))
-                .test(chargesRule, premium);
+        return riskLevelPredicates.stream()
+        		.allMatch(e -> e.test(chargesRule, premium));
     }
+    
+    private List<BiPredicate<ChargesRule, Premium>> initializeRiskLevelPredicates() {
+    	
+    	 List<BiPredicate<ChargesRule, Premium>> riskLevelPredicates = Arrays.asList(
+    			 (c, p) -> c.getSectionCode().equalsIgnoreCase(p.getSectionCode())
+    			 , (c, p) -> c.getProductCode().equalsIgnoreCase(p.getProductId().getCode())
+    			 , (c, p) -> c.getStateCode().equals(p.getStateCode())
+    			 , (c, p) -> c.getLocationNumber().equals(p.getLocationNo())
+    			 );
+    	 
+    	return riskLevelPredicates;
+    }      
 }

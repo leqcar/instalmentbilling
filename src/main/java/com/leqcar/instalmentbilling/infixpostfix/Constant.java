@@ -22,9 +22,11 @@ public enum Constant implements Supplier<BigDecimal> {
     
 	private static final Map<String, Supplier<BigDecimal>> REGISTRY = new TreeMap<String, Supplier<BigDecimal>>();
     static {
-        for (Constant constant : values()) {
-            REGISTRY.put(constant.name(), constant);
-        }
+    	if (REGISTRY.size() == 0) {
+            for (Constant constant : values()) {
+                REGISTRY.put(constant.name(), constant);
+            }    		
+    	}
     }
     public static final Function<String, Supplier<BigDecimal>> RESOLVER = Maps.asResolver(REGISTRY);
 

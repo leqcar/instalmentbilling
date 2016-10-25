@@ -13,7 +13,7 @@ import com.leqcar.instalmentbilling.domain.model.policy.PolicyRepository;
 import com.leqcar.instalmentbilling.domain.model.product.Product;
 import com.leqcar.instalmentbilling.domain.model.product.ProductId;
 import com.leqcar.instalmentbilling.domain.model.product.ProductRepository;
-import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
+import com.leqcar.instalmentbilling.domain.model.quote.WipId;
 
 /*@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {PolicyRetrievalService.class})*/
@@ -39,10 +39,10 @@ public class PolicyRetrievalServiceTest {
 		Policy aPolicy = new Policy(LocalDate.now()
 				, LocalDate.now()
 				, LocalDate.now() 
-				, new QuoteId("1234", "1")
+				, new WipId("1234", "1")
 				, new Product(new ProductId("XYZ")
 						, LocalDate.now()
-						, new QuoteId("1234", "1")));	
+						, new WipId("1234", "1")));	
 		PolicyRetrievalService service = new PolicyRetrievalService(
 				new ProductRetrievalService(productRepository)
 				, policyRepository);
@@ -57,10 +57,10 @@ public class PolicyRetrievalServiceTest {
 		Policy aPolicy = new Policy(LocalDate.now()
 				, LocalDate.now()
 				, LocalDate.now() 
-				, new QuoteId("1234", "1")
+				, new WipId("1234", "1")
 				, new Product(new ProductId("XYZ")
 						, LocalDate.now()
-						, new QuoteId("1234", "1")));		
+						, new WipId("1234", "1")));		
 		PolicyRetrievalService service = new PolicyRetrievalService(
 				new ProductRetrievalService(productRepository)
 				, policyRepository);

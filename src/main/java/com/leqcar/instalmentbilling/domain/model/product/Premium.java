@@ -1,6 +1,10 @@
 package com.leqcar.instalmentbilling.domain.model.product;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.leqcar.instalmentbilling.domain.model.charges.Charges;
 
 
 //TODO : Analyze how to handle the State code, put here the implementation;
@@ -37,7 +41,31 @@ public class Premium {
 
 	private ProductId productId;
 	
+	private List<Charges> charges;
 	
+	
+	
+	public Premium(String locationNo, String coverageObjectNo, String sectionCode, String riskCode, String coverageCode,
+			String majorLineCode, String minorLineCode, String classPerilCode, String stateCode, ProductId productId
+			, BigDecimal onSetPremiumAmount
+			, BigDecimal offSetPremiumAmount) {
+		super();
+		this.locationNo = locationNo;
+		this.coverageObjectNo = coverageObjectNo;
+		this.sectionCode = sectionCode;
+		this.riskCode = riskCode;
+		this.coverageCode = coverageCode;
+		this.majorLineCode = majorLineCode;
+		this.minorLineCode = minorLineCode;
+		this.classPerilCode = classPerilCode;
+		this.stateCode = stateCode;
+		this.productId = productId;
+		this.onSetPremiumAmount = onSetPremiumAmount;
+		this.offSetPremiumAmount = offSetPremiumAmount;
+		
+	}
+
+
 	protected BigDecimal premiumWrittenAmount() {
 		return onSetPremiumAmount.subtract(offSetPremiumAmount);
 	}
@@ -79,5 +107,19 @@ public class Premium {
 	public ProductId getProductId() {
 		return productId;
 	}
+	
+	
+	public void addCharges(Charges aCharge) {
+		if (charges == null) {
+			charges = new ArrayList<>(); 
+		}
+		charges.add(aCharge);
+	}
+
+
+	public List<Charges> getCharges() {
+		return charges;
+	}
+
 }
 

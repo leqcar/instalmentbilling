@@ -3,7 +3,7 @@ package com.leqcar.instalmentbilling.application;
 import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 import com.leqcar.instalmentbilling.domain.model.product.Product;
 import com.leqcar.instalmentbilling.domain.model.product.ProductId;
-import com.leqcar.instalmentbilling.domain.model.quote.QuoteId;
+import com.leqcar.instalmentbilling.domain.model.quote.WipId;
 import com.leqcar.instalmentbilling.domain.service.ChargesRuleService;
 import com.leqcar.instalmentbilling.domain.service.PolicyRetrievalService;
 import com.leqcar.instalmentbilling.interfaces.InstalmentRequest;
@@ -17,14 +17,14 @@ public class DefaultBillingService implements BillingService {
 	@Override
 	public void requestInstallmentBilling(InstalmentRequest request) {
 
-		QuoteId quoteId = new QuoteId(request.getWipNo(), request.getWipIterationNumber());
+		WipId wipId = new WipId(request.getWipNo(), request.getWipIterationNumber());
 		Policy policyRequest = new Policy(request.getExpirationDate(), 
 				request.getEffectiveDate(), 
 				request.getInceptionDate(), 
-				quoteId, 
+				wipId, 
 				new Product(new ProductId(request.getProductCode())
 						, request.getEffectiveDate()
-						, quoteId));		
+						, wipId));		
 		
 		Policy policy = policyService.retrievePolicyInformation(policyRequest);
 		

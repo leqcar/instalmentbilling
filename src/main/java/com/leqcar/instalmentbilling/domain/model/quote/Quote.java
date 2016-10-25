@@ -4,11 +4,11 @@ import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 
 public class Quote {
 
-	private QuoteId quoteId;
+	private WipId quoteId;
 
 	private Policy policy;
 
-	public Quote(QuoteId quoteId, Policy policy) {
+	public Quote(WipId quoteId, Policy policy) {
 		super();
 		this.quoteId = quoteId;
 		this.policy = policy;
