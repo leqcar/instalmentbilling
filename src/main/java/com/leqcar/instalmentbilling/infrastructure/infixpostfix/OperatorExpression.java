@@ -1,4 +1,4 @@
-package com.leqcar.instalmentbilling.infixpostfix;
+package com.leqcar.instalmentbilling.infrastructure.infixpostfix;
 
 import java.math.BigDecimal;
 import java.util.function.Supplier;

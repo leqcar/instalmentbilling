@@ -1,4 +1,4 @@
-package com.leqcar.instalmentbilling.infixpostfix;
+package com.leqcar.instalmentbilling.infrastructure.infixpostfix;
 
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;

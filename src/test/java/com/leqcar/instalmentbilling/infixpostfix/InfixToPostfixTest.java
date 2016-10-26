@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.leqcar.instalmentbilling.infrastructure.infixpostfix.InfixToPostfix;
+
 public class InfixToPostfixTest {
 
 	@Test

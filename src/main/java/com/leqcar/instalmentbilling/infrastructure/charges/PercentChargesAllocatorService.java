@@ -11,12 +11,12 @@ import com.leqcar.instalmentbilling.domain.model.charges.ChargesRule;
 import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 import com.leqcar.instalmentbilling.domain.model.product.Premium;
 import com.leqcar.instalmentbilling.domain.service.AttachmentLevelCodeMatcherService;
-import com.leqcar.instalmentbilling.infixpostfix.Collector;
-import com.leqcar.instalmentbilling.infixpostfix.Constant;
-import com.leqcar.instalmentbilling.infixpostfix.ExpressionFactory;
-import com.leqcar.instalmentbilling.infixpostfix.InfixToPostfix;
-import com.leqcar.instalmentbilling.infixpostfix.OperandCollector;
-import com.leqcar.instalmentbilling.infixpostfix.OperatorFactoryResolver;
+import com.leqcar.instalmentbilling.infrastructure.infixpostfix.Collector;
+import com.leqcar.instalmentbilling.infrastructure.infixpostfix.Constant;
+import com.leqcar.instalmentbilling.infrastructure.infixpostfix.ExpressionFactory;
+import com.leqcar.instalmentbilling.infrastructure.infixpostfix.InfixToPostfix;
+import com.leqcar.instalmentbilling.infrastructure.infixpostfix.OperandCollector;
+import com.leqcar.instalmentbilling.infrastructure.infixpostfix.OperatorFactoryResolver;
 
 public class PercentChargesAllocatorService implements ChargesAllocatorService {
 	
