@@ -2,6 +2,7 @@ package com.leqcar.instalmentbilling.domain.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 
@@ -47,6 +48,7 @@ public class PolicyRetrievalServiceTest {
 				new ProductRetrievalService(productRepository)
 				, policyRepository);
 		
+		when(policyRepository.findByWip(aPolicy)).thenReturn(aPolicy);
 		assertNotNull(service.retrievePolicyInformation(aPolicy));
 		
 	}

@@ -26,7 +26,6 @@ public class PercentChargesAllocatorService implements ChargesAllocatorService {
 	public void allocateCharges(Policy aPolicy, ChargesRule chargesRule) {
 		AttachmentLevelCodeMatcherService attachmentLevelCodeMatcherService = new AttachmentLevelCodeMatcherService();
 		
-		Integer roundPrecision = aPolicy.getProduct().getRoundPrecision().getValue();
 		List<Premium> policyPremiums = aPolicy.getProduct().getPolicyPremiums();
 		
 		for (Premium premium : policyPremiums) {
@@ -44,7 +43,7 @@ public class PercentChargesAllocatorService implements ChargesAllocatorService {
 					chargesRule.getChargeCount(),
 					BigDecimal.valueOf(0.0), 					
 					BigDecimal.valueOf(0.0), 
-					chargesRule.applyRounding(roundPrecision, calculationResult), 
+					calculationResult, 
 					BigDecimal.valueOf(0.0));
 			
 			premium.addCharges(charges);

@@ -1,5 +1,6 @@
 package com.leqcar.instalmentbilling.domain.model.product;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,6 +90,10 @@ public class Product {
 		this.coinsurance = coinsurance;
 	}
 	
-	
+	public BigDecimal calculateSumOfDeltaPremiumWritten() {
+		return policyPremiums.stream()
+				.map(p -> p.getDeltaPremiumWrittenAmount())
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
 	
 }

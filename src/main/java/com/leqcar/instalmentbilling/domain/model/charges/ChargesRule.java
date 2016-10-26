@@ -121,4 +121,10 @@ public class ChargesRule {
 	public BigDecimal applyRounding(Integer roundPrecision, BigDecimal amount) {
 		return roundRuleType.apply(roundPrecision, amount);
 	}
+
+
+	public RoundRuleType getRoundRuleType() {
+		return roundRuleType;
+	}
+		
 }

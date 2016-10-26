@@ -6,6 +6,8 @@ import com.leqcar.instalmentbilling.domain.model.charges.ChargesAllocatorService
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesRule;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesRuleRepository;
 import com.leqcar.instalmentbilling.domain.model.policy.Policy;
+import com.leqcar.instalmentbilling.domain.model.policy.PolicyCharges;
+import com.leqcar.instalmentbilling.domain.model.product.Premium;
 import com.leqcar.instalmentbilling.domain.shared.ChargesAllocatorResolver;
 
 public class ChargesRuleService {
@@ -32,9 +34,26 @@ public class ChargesRuleService {
 			chargesAllocatorService = resolver.apply(chargeRule.getChargeBasis());
 			if (chargesAllocatorService != null) {
 				chargesAllocatorService.allocateCharges(aPolicy, chargeRule);
-			}			
+			}	
+			
+			createPolicyCharges(aPolicy, chargeRule);
 		}
 		
+		aPolicy.calculateDeltaBillableAmount();
+		
+	}
+
+	private void createPolicyCharges(Policy aPolicy, ChargesRule chargeRule) {
+	
+		Integer roundPrecision = aPolicy.getProduct().getRoundPrecision().getValue();	
+		List<Premium> premiums = aPolicy.getProduct().getPolicyPremiums();		
+		PolicyCharges policyCharges = new PolicyCharges(chargeRule.getChargeCode()
+				, chargeRule.getChargeType()
+				, chargeRule.getChargeBasis()
+				, premiums);		
+		policyCharges.calculateChargesAmount(roundPrecision, chargeRule.getRoundRuleType());
+		
+		aPolicy.addPolicyCharges(policyCharges);
 	}
 	
 }
