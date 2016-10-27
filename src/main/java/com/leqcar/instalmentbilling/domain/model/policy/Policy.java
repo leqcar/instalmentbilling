@@ -19,6 +19,8 @@ public class Policy {
 	//used for endorsements
 	private LocalDate transactionDate;
 
+	private int numberOfInstallment;
+	
 	private WipId wipId;
 	
 	private Product product;
@@ -29,17 +31,24 @@ public class Policy {
 	
 	private List<PolicyCharges> policyCharges;
 	
+	private PolicyInstallment policyInstallment;
+	
+	//use Product#calculateSumOfDeltaPremiumWritten
+	private BigDecimal deltaPremiumWrittenAmount;
+	
 	private BigDecimal deltaBillableAmount;
 	
 	public Policy(LocalDate expirationDate, 
 			LocalDate effectiveDate, 
 			LocalDate inceptionDate, 
+			int numberOfInstallment,
 			WipId wipId,
 			Product product) {
 		super();
 		this.expirationDate = expirationDate;
 		this.effectiveDate = effectiveDate;
 		this.inceptionDate = inceptionDate;
+		this.numberOfInstallment = numberOfInstallment;
 		this.wipId = wipId;
 		this.product = product;
 	}
@@ -83,6 +92,10 @@ public class Policy {
 	public TransactionType getTransactionType() {
 		return transactionType;
 	}
+	
+	public int getNumberOfInstallment() {
+		return numberOfInstallment;
+	}
 
 	public void addPolicyCharges(PolicyCharges policyCharges) {
 		if (this.policyCharges == null) {
@@ -115,4 +128,10 @@ public class Policy {
 				.add(calculateDeltaChargeAmount())
 				.add(calculateDeltaTaxAmount());
 	}
+
+	public PolicyInstallment getPolicyInstallment() {
+		return policyInstallment;
+	}
+
+	
 }

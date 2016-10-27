@@ -4,6 +4,7 @@ import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 import com.leqcar.instalmentbilling.domain.model.product.Product;
 import com.leqcar.instalmentbilling.domain.model.product.ProductId;
 import com.leqcar.instalmentbilling.domain.model.quote.WipId;
+import com.leqcar.instalmentbilling.domain.service.BillingScheduleService;
 import com.leqcar.instalmentbilling.domain.service.ChargesRuleService;
 import com.leqcar.instalmentbilling.domain.service.PolicyRetrievalService;
 import com.leqcar.instalmentbilling.interfaces.InstalmentRequest;
@@ -14,6 +15,8 @@ public class DefaultBillingService implements BillingService {
 	
 	private ChargesRuleService chargesRuleService;
 	
+	private BillingScheduleService billingScheduleService;
+	
 	@Override
 	public void requestInstallmentBilling(InstalmentRequest request) {
 
@@ -21,6 +24,7 @@ public class DefaultBillingService implements BillingService {
 		Policy policyRequest = new Policy(request.getExpirationDate(), 
 				request.getEffectiveDate(), 
 				request.getInceptionDate(), 
+				request.getNumberOfInstallment(),
 				wipId, 
 				new Product(new ProductId(request.getProductCode())
 						, request.getEffectiveDate()
@@ -29,7 +33,7 @@ public class DefaultBillingService implements BillingService {
 		Policy policy = policyService.retrievePolicyInformation(policyRequest);
 		
 		chargesRuleService.applyCharges(policy);
-		
+		billingScheduleService.generateInstallment(policy);
 		
 	}
 

@@ -1,42 +1,30 @@
-package com.leqcar.instalmentbilling.domain.model.policy;
+package com.leqcar.instalmentbilling.infrastructure.charges;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import com.leqcar.instalmentbilling.domain.model.charges.AttachmentLevel;
-import com.leqcar.instalmentbilling.domain.model.charges.ChargesAllocatorService;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesBasis;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesRule;
-import com.leqcar.instalmentbilling.domain.model.charges.ChargesRuleRepository;
 import com.leqcar.instalmentbilling.domain.model.charges.ChargesType;
 import com.leqcar.instalmentbilling.domain.model.charges.RoundRuleType;
+import com.leqcar.instalmentbilling.domain.model.policy.Policy;
 import com.leqcar.instalmentbilling.domain.model.product.Coinsurance;
 import com.leqcar.instalmentbilling.domain.model.product.Premium;
 import com.leqcar.instalmentbilling.domain.model.product.Product;
 import com.leqcar.instalmentbilling.domain.model.product.ProductId;
 import com.leqcar.instalmentbilling.domain.model.product.RoundPrecision;
 import com.leqcar.instalmentbilling.domain.model.quote.WipId;
-import com.leqcar.instalmentbilling.domain.service.ChargesRuleService;
 
-public class PolicyChargesTest {
+public class FlatChargesAllocatorServiceTest {
 
-	
-	@Mock
-	private ChargesRuleRepository chargeRuleRepository;
-	@Mock
-	private ChargesAllocatorService chargesAllocatorService;
-	
 	private MockPolicy policy;
 	private MockCoinsurance coinsurance;
 	private MockRoundPrecision roundPrecision;
@@ -46,35 +34,19 @@ public class PolicyChargesTest {
 		policy = new MockPolicy();
 		coinsurance = new MockCoinsurance();
 		roundPrecision = new MockRoundPrecision();
-		chargeRuleRepository = mock(ChargesRuleRepository.class);
-		chargesAllocatorService = mock(ChargesAllocatorService.class);		
+		
 	}
 	
 	@Test
-	public void testCreatePolicyCharges() {
+	public void testApplyChargesForProductLevel() {
 		
-		ChargesRuleService service = new ChargesRuleService(chargeRuleRepository, chargesAllocatorService);
-
-		when(chargeRuleRepository.findEffectiveRulesByProduct()).thenReturn(createMockChargeRuleList());
+		FlatChargesAllocatorService service = new FlatChargesAllocatorService();
 		
 		Policy aPolicy = policy.createPolicy();
 		
-		aPolicy.getProduct().setCoinsurance(coinsurance.createCoinsurance());
-		aPolicy.getProduct().setRoundPrecision(roundPrecision.createRoundPrecision());
-		
-		service.applyCharges(aPolicy);
-
-		assertTrue(aPolicy.getPolicyCharges().stream().findFirst().isPresent());
-		
-	}
-	
-	private List<ChargesRule> createMockChargeRuleList() {
-
-		List<ChargesRule> rules = new ArrayList<>();
-		
-		ChargesRule chargesRule09 = new ChargesRule("09"
-				,  ChargesBasis.PERCENTAGE
-				, BigDecimal.ONE
+		ChargesRule chargesRule = new ChargesRule("1234"
+				,  ChargesBasis.FLAT
+				, BigDecimal.valueOf(1234)
 				, ChargesType.CHARGE
 				, "XYZ"
 				, "1"
@@ -86,39 +58,15 @@ public class PolicyChargesTest {
 				, RoundRuleType.NORMAL
 				, "1 + 2");
 		
-		ChargesRule chargesRule11 = new ChargesRule("11"
-				,  ChargesBasis.PERCENTAGE
-				, BigDecimal.ONE
-				, ChargesType.CHARGE
-				, "XYZ"
-				, "1"
-				, "123"
-				, "1234"
-				, "12345"
-				, "999"
-				, AttachmentLevel.PRODUCT_LEVEL
-				, RoundRuleType.NORMAL
-				, "2 + 2");
+		boolean hasNoChargesYet = aPolicy.getProduct().getPolicyPremiums().stream()
+				.map(e -> e.getCharges() != null).findAny().orElse(false);		
+		assertFalse(hasNoChargesYet);
 		
-		ChargesRule chargesRule18 = new ChargesRule("18"
-				,  ChargesBasis.PERCENTAGE
-				, BigDecimal.ONE
-				, ChargesType.CHARGE
-				, "XYZ"
-				, "1"
-				, "123"
-				, "1234"
-				, "12345"
-				, "999"
-				, AttachmentLevel.PRODUCT_LEVEL
-				, RoundRuleType.NORMAL
-				, "4 + 4");
+		service.allocateCharges(aPolicy, chargesRule);
 		
-		rules.add(chargesRule11);
-		rules.add(chargesRule09);
-		rules.add(chargesRule18);
-		
-		return rules;
+		boolean actual = aPolicy.getProduct().getPolicyPremiums().stream()
+							.map(e -> e.getCharges() != null).findAny().orElse(false);
+		assertTrue(actual);
 	}
 	
 	class MockPolicy {
@@ -159,11 +107,26 @@ public class PolicyChargesTest {
 					, "classPerilCode"
 					, "stateCode"
 					, new ProductId("XYZ")
-					, new BigDecimal(1000)
+					, new BigDecimal(5000)
+					, new BigDecimal(10));
+			
+			Premium premium3 = new Premium("1"
+					, "coverageObjectNo"
+					, "123"
+					, "1234"
+					, "12345"
+					, "majorLineCode"
+					, "minorLineCode"
+					, "classPerilCode"
+					, "stateCode"
+					, new ProductId("XYZ")
+					, new BigDecimal(2000)
 					, new BigDecimal(10));			
-			
-			
-			policy.getProduct().addPremiumList(Arrays.asList(premium1, premium2));
+						
+			policy.getProduct().addPremiumList(Arrays.asList(
+					premium1,
+					premium2,
+					premium3));
 			
 			return policy;
 		}
@@ -190,6 +153,58 @@ public class PolicyChargesTest {
 			
 			return roundPrecision;
 		}
-	}		
-}
+	}
+	
+/*	private List<ChargesRule> createMockChargeRuleList() {
 
+		List<ChargesRule> rules = new ArrayList<>();
+		
+		ChargesRule chargesRule09 = new ChargesRule("09"
+				,  ChargesBasis.FLAT
+				, BigDecimal.ONE
+				, ChargesType.CHARGE
+				, "XYZ"
+				, "1"
+				, "123"
+				, "1234"
+				, "12345"
+				, "999"
+				, AttachmentLevel.PRODUCT_LEVEL
+				, RoundRuleType.NORMAL
+				, "1 + 2");
+		
+		ChargesRule chargesRule11 = new ChargesRule("11"
+				,  ChargesBasis.FLAT
+				, BigDecimal.ONE
+				, ChargesType.CHARGE
+				, "XYZ"
+				, "1"
+				, "123"
+				, "1234"
+				, "12345"
+				, "999"
+				, AttachmentLevel.PRODUCT_LEVEL
+				, RoundRuleType.NORMAL
+				, "1 + 2");
+		
+		ChargesRule chargesRule18 = new ChargesRule("18"
+				,  ChargesBasis.FLAT
+				, BigDecimal.ONE
+				, ChargesType.CHARGE
+				, "XYZ"
+				, "1"
+				, "123"
+				, "1234"
+				, "12345"
+				, "999"
+				, AttachmentLevel.PRODUCT_LEVEL
+				, RoundRuleType.NORMAL
+				, "1 + 2");
+		
+		rules.add(chargesRule11);
+		rules.add(chargesRule09);
+		rules.add(chargesRule18);
+		
+		return rules;
+	}	*/
+}

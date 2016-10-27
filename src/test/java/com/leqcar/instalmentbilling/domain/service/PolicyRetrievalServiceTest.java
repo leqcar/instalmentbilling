@@ -40,6 +40,7 @@ public class PolicyRetrievalServiceTest {
 		Policy aPolicy = new Policy(LocalDate.now()
 				, LocalDate.now()
 				, LocalDate.now() 
+				, 12
 				, new WipId("1234", "1")
 				, new Product(new ProductId("XYZ")
 						, LocalDate.now()
@@ -59,6 +60,7 @@ public class PolicyRetrievalServiceTest {
 		Policy aPolicy = new Policy(LocalDate.now()
 				, LocalDate.now()
 				, LocalDate.now() 
+				, 12
 				, new WipId("1234", "1")
 				, new Product(new ProductId("XYZ")
 						, LocalDate.now()

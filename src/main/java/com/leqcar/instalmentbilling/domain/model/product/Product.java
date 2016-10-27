@@ -3,7 +3,6 @@ package com.leqcar.instalmentbilling.domain.model.product;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.leqcar.instalmentbilling.domain.model.quote.WipId;
@@ -96,4 +95,9 @@ public class Product {
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 	
+	public BigDecimal calculateSumOfDeltaChargesAmount() {
+		return policyPremiums.stream()
+				.map(p -> p.calculateSumOfCharges())
+				.reduce(BigDecimal.ZERO, BigDecimal::add);		
+	}
 }

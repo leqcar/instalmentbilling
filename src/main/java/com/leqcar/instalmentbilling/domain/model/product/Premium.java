@@ -43,6 +43,8 @@ public class Premium {
 	
 	private List<Charges> charges;
 	
+	private boolean isMaxDeltaCharge;
+	
 	
 	
 	public Premium(String locationNo, String coverageObjectNo, String sectionCode, String riskCode, String coverageCode,
@@ -76,7 +78,7 @@ public class Premium {
 	}
 
 
-	protected BigDecimal getDeltaPremiumWrittenAmount() {
+	public BigDecimal getDeltaPremiumWrittenAmount() {
 		return deltaPremiumWrittenAmount;
 	}
 
@@ -119,6 +121,12 @@ public class Premium {
 
 	public List<Charges> getCharges() {
 		return charges;
+	}
+	
+	public BigDecimal calculateSumOfCharges() {
+		return charges.stream()
+			.map(c -> c.getDeltaChargeAmount())
+			.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
 }

@@ -51,6 +51,8 @@ public class ChargesRuleService {
 				, chargeRule.getChargeType()
 				, chargeRule.getChargeBasis()
 				, premiums);		
+		
+		policyCharges.calculateChargesValue(chargeRule.getChargeCount());
 		policyCharges.calculateChargesAmount(roundPrecision, chargeRule.getRoundRuleType());
 		
 		aPolicy.addPolicyCharges(policyCharges);

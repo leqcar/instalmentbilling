@@ -124,6 +124,7 @@ public class ChargesRuleServiceTest {
 			Policy policy = new Policy(LocalDate.now()
 					, LocalDate.now()
 					, LocalDate.now()
+					, 12
 					, new WipId("0001", "1")
 					, new Product(new ProductId("XYZ")
 							, LocalDate.now()

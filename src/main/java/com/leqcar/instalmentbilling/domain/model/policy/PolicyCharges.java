@@ -86,6 +86,18 @@ public class PolicyCharges {
 		this.newChargeAmount = this.oldChargeAmount.add(deltaChargeAmount);
 	}
 	
+	public void calculateChargesValue(BigDecimal chargeCount) {
+		if (chargesBasis.equals(ChargesBasis.FLAT)) {
+			this.newChargeValue = BigDecimal.ONE.negate();
+			this.oldChargeValue = BigDecimal.ONE.negate();
+			this.deltaChargeValue = BigDecimal.ZERO;			
+		} else {
+			this.newChargeValue = chargeCount;
+			this.oldChargeValue = BigDecimal.ZERO;
+			this.deltaChargeValue = newChargeValue.subtract(oldChargeValue);
+		}
+	}
+	
 	private BigDecimal calculateDeltaChargesAmount(int roundPrecision, RoundRuleType roundRuleType) {		
 		return premiums.stream()
 			.map(p -> p.getCharges().stream()

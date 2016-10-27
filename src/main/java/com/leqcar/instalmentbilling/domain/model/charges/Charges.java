@@ -78,6 +78,11 @@ public class Charges {
 		return oldChargeAmount;
 	}
 
+	//not needed (@see FlatChargesAllocatorService
+	public void setDeltaChargeAmount(BigDecimal deltaChargeAmount) {
+		this.deltaChargeAmount = deltaChargeAmount;
+	}
+
 	private BigDecimal calculateDeltaChargeValue(BigDecimal newChargeValue, BigDecimal oldChargeValue) {
 		return newChargeValue.subtract(oldChargeValue);
 	}
