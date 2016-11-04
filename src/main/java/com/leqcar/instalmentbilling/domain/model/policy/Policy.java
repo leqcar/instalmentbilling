@@ -33,6 +33,8 @@ public class Policy {
 	
 	private PolicyInstallment policyInstallment;
 	
+	private PaymentPlanType paymentPlanType;
+	
 	//use Product#calculateSumOfDeltaPremiumWritten
 	private BigDecimal deltaPremiumWrittenAmount;
 	
@@ -133,5 +135,8 @@ public class Policy {
 		return policyInstallment;
 	}
 
-	
+	public BigDecimal getDeltaPremiumWrittenAmount() {
+		return deltaPremiumWrittenAmount;
+	}
+
 }

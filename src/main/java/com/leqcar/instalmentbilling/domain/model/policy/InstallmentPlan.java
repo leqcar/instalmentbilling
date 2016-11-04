@@ -4,9 +4,14 @@ import java.math.BigDecimal;
 
 public class InstallmentPlan {
 
-	private Long id;
+	private int installmentNumber;
 	
-	private BigDecimal deltaPremiumWrittenANount;
-	
+	private BigDecimal deltaPremiumWrittenAmount;
+
+	public InstallmentPlan(int installmentNumber, BigDecimal deltaPremiumWrittenAmount) {
+		super();
+		this.installmentNumber = installmentNumber;
+		this.deltaPremiumWrittenAmount = deltaPremiumWrittenAmount;
+	}
 	
 }
